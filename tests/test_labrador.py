@@ -47,7 +47,7 @@ class TestLabradorModel:
         codes = torch.randint(0, 100, (2, 5))
         values = torch.rand(2, 5)
         label = torch.randint(0, 2, (2,))
-        out = model(lab_codes=codes, lab_values=values, labels=label)
+        out = model(lab_codes=codes, lab_values=values, label=label)
 
         assert "loss" in out
         assert "y_prob" in out
@@ -62,7 +62,7 @@ class TestLabradorModel:
         codes = torch.randint(0, 100, (3, 8))
         values = torch.rand(3, 8)
         label = torch.randint(0, 2, (3,))
-        out = model(lab_codes=codes, lab_values=values, labels=label)
+        out = model(lab_codes=codes, lab_values=values, label=label)
 
         assert out["logit"].shape == (3, 1)
         assert out["y_prob"].shape == (3, 1)
@@ -76,7 +76,7 @@ class TestLabradorModel:
         codes = torch.randint(0, 100, (2, 5))
         values = torch.rand(2, 5)
         label = torch.randint(0, 2, (2,))
-        out = model(lab_codes=codes, lab_values=values, labels=label)
+        out = model(lab_codes=codes, lab_values=values, label=label)
         out["loss"].backward()
 
         has_grad = any(p.grad is not None for p in model.parameters())
