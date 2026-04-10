@@ -123,7 +123,7 @@ class LabradorModel(BaseModel):
         lab_codes: torch.Tensor,          # (B, seq_len) int
         lab_values: torch.Tensor,         # (B, seq_len) float
         padding_mask: Optional[torch.Tensor] = None,  # (B, seq_len) bool
-        labels: Optional[torch.Tensor] = None,
+        label: Optional[torch.Tensor] = None,
         **kwargs,
     ) -> Dict[str, torch.Tensor]:
         """Forward pass.
@@ -162,13 +162,13 @@ class LabradorModel(BaseModel):
 
         result = {"logit": logit, "y_prob": y_prob}
 
-        if labels is not None:
+        if label is not None:
             if self.mode == "binary":
-                labels = labels.float().view_as(logit)
+                label = label.float().view_as(logit)
             elif self.mode == "multilabel":
-                labels = labels.float().view_as(logit)
+                label = label.float().view_as(logit)
         
-            result["loss"] = self.get_loss_function()(logit, labels)
-            result["y_true"] = labels
+            result["loss"] = self.get_loss_function()(logit, label)
+            result["y_true"] = label
         
         return result
