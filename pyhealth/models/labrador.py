@@ -143,7 +143,7 @@ class LabradorModel(BaseModel):
                 - logit: raw logits, shape (B, output_size).
         """
         # Embed: (B, L, H)
-        x = self.embedding(lab_codes, lab_values)
+        x = self.embedding(lab_codes, lab_values.float())
         x = self.dropout(x)
 
         # Transformer encoder
